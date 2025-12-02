@@ -40,3 +40,25 @@ jobs:
         with:
           name: app-jar
           path: target/*.jar
+
+  sonar:
+    needs: build-test
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: SonarQube Analysis
+        run: mvn -B verify sonar:sonar \
+             -Dsonar.projectKey=my-java-app \
+             -Dsonar.host.url=http://localhost:9000 \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+
