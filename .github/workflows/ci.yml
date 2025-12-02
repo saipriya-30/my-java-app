@@ -30,7 +30,8 @@ jobs:
         run: mvn -B test
 
       - name: Lint with Checkstyle
-        run: mvn -B checkstyle:checkstyle || true
+        run: mvn -B checkstyle:checkstyle
+        continue-on-error: true
 
       - name: Package
         run: mvn -B package -DskipTests=false
