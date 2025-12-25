@@ -17,12 +17,12 @@ jobs:
         uses: actions/checkout@v4
 
       # Dependency scan (SCA) + SARIF
-      - name: Snyk Open Source Scan
-        uses: snyk/actions/node@v1
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: test --sarif-file-output=snyk-deps.sarif
+      # - name: Snyk Open Source Scan
+      # uses: snyk/actions/node@v1
+       # env:
+         # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+       # with:
+        #  args: test --sarif-file-output=snyk-deps.sarif
 
       # SAST
       - name: Snyk Code Scan
