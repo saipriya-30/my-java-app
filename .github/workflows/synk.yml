@@ -30,7 +30,8 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: code test
+          command: code
+          args: test
 
       # Upload SARIF
       - name: Upload SARIF
