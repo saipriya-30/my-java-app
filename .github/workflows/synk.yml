@@ -1,0 +1,39 @@
+name: Snyk Security Scan
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Dependency scan (SCA) + SARIF
+      - name: Snyk Open Source Scan
+        uses: snyk/actions/node@v1
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: test --sarif-file-output=snyk-deps.sarif
+
+      # SAST
+      - name: Snyk Code Scan
+        uses: snyk/actions/node@v1
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: code test
+
+      # Upload SARIF
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: snyk-deps.sarif
